@@ -1,0 +1,40 @@
+Event Driven ARCHITECTURE IN NODE JS
+In Node js event driven architecture , i.e key part of it how to handle all task at once without blocking operations.
+These makes application more flexible and responsive
+
+what is event driven approach?
+Event driven  is a design patter where application respond to change in state user input message or other programs.
+Instead of program logic tied to specific event as they occur.
+These makes application more flexible and responsive.
+
+How event driven works in node js?
+Node js inherently event driven.
+It core relies on single threaded event loop which efficienlty manage async operation.
+Events:-
+It occur something clicking a button , reading the file , networking the request.
+EventLoop:
+Node js has central loop constantly monitor these events. 
+Act as a traffic controller .
+Callbacks:
+when an event occur node js execute callback function.
+This function contain the code that should run in specific events.
+Non-blocking:
+It means waiting for an event (reading a file) meanwhile handle another task.
+Asynchronous:
+Many opn in node js are async. For eg reading a file doesn't stop the rest of your program.node js callback function to be executed while the callback function executed when file is being read.
+
+Key Component in node js event driven architecture.
+eventEmitter Module
+event emitter module is a core part of node js that provide a way to create and manage custom events.
+Its how you build thing that can send and recieve event signal
+
+events:
+Event-driven programming is a way of writing code where you focus on creating events and deciding how your program should react to them. It's like setting up a system of notifications and responses
+Benefits of event driven architecture
+Scalabity
+Async process and input/output operation
+Modularity
+Responsiveness
+The event-driven architecture is a core principle of NodeJS, enabling asynchronous and non-blocking I/O operations,
+efficient handling of concurrent requests, and scalable application development.
+By understanding the concepts of events, event emitters, and the event loop, developers can harness the power of event-driven programming to build robust, responsive, and high-performance NodeJS applications.
