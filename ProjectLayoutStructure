@@ -1,0 +1,18 @@
+/src
+├── controllers
+├── services
+├── routes
+├── models (Mongoose/Sequelize schemas)
+├── middlewares
+├── utils
+└── config
+
+Routes define endpoints and map to controllers.
+
+Controllers handle request/response.
+
+Services contain business logic.
+
+Models define DB structure.
+
+This separation ensures scalability and testability. I also use dotenv for environment configs and apply SOLID principles wherever possible
