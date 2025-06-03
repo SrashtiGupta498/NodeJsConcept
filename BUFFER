@@ -1,0 +1,71 @@
+## Buffer in Node.js
+
+A **Buffer** in Node.js is a built-in class designed to handle and manipulate binary data directly in memory. Buffers are essential in Node.js because JavaScript, by default, does not have a way to handle raw binary data, which is necessary for many lower-level operations such as reading from files, handling TCP streams, or working with binary protocols[1][2][4].
+
+### Key Characteristics
+
+- **Represents a Fixed-Length Sequence of Bytes:** A Buffer is similar to an array of integers but specifically represents raw memory allocation outside the V8 JavaScript engine heap[1][5].
+- **Binary Data Handling:** Buffers are used to store binary data, unlike regular JavaScript arrays or strings, which are designed for textual data[3][6].
+- **Subclass of Uint8Array:** The Buffer class extends JavaScript’s Uint8Array, adding methods for handling binary data more efficiently[1][5].
+
+### Creating Buffers
+
+There are several ways to create buffers in Node.js:
+
+```javascript
+// Import Buffer explicitly (recommended)
+const { Buffer } = require('node:buffer');
+
+// Creates a zero-filled Buffer of length 10
+const buf1 = Buffer.alloc(10);
+
+// Creates a Buffer of length 10, filled with 1s
+const buf2 = Buffer.alloc(10, 1);
+
+// Creates an uninitialized Buffer of length 10 (faster, but may contain old data)
+const buf3 = Buffer.allocUnsafe(10);
+
+// Creates a Buffer from an array of bytes
+const buf4 = Buffer.from([1, 2, 3]);
+
+// Creates a Buffer from a string (UTF-8 by default)
+const buf5 = Buffer.from('hello world', 'utf8');
+```
+
+
+### Common Use Cases
+
+- **File System Operations:** Reading and writing files in binary mode.
+- **Network Communications:** Handling TCP streams, HTTP requests, and responses.
+- **Binary Protocols:** Parsing or constructing binary formats.
+
+### Important Notes
+
+- **Global Object:** While Buffer is available globally, it is recommended to import it explicitly for clarity and future compatibility[1][5].
+- **Deprecation:** The old way of creating buffers with `new Buffer()` is deprecated due to security and usability issues. Use `Buffer.alloc()`, `Buffer.allocUnsafe()`, or `Buffer.from()` instead[5].
+- **Memory Management:** Buffers allocate memory outside the V8 heap, which can help with performance but requires careful management to avoid memory leaks[5].
+
+### Example: Reading a File
+
+```javascript
+const fs = require('fs');
+const { Buffer } = require('node:buffer');
+
+fs.readFile('example.jpg', (err, data) => {
+  if (err) throw err;
+  // 'data' is a Buffer containing the binary data of the file
+  console.log(data);
+});
+```
+
+### Summary Table
+
+| Feature         | Description                                |
+|-----------------|--------------------------------------------|
+| Type            | Fixed-length sequence of bytes              |
+| Use Case        | Binary data handling (files, streams, etc.) |
+| Creation        | `Buffer.alloc()`, `Buffer.from()`           |
+| Backed by       | Raw memory outside V8 heap                  |
+| Subclass of     | Uint8Array                                  |
+
+Buffers are a core part of Node.js for working with binary data, making them crucial for many backend and network programming tasks[1][2][5].
