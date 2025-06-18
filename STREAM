@@ -1,0 +1,116 @@
+10 JavaScript concepts you need to succeed with Node
+How-To
+Jun 11, 2025
+15 mins
+JavaScript
+Programming Languages
+Software Development
+
+
+
+
+
+
+
+
+Want to build quality and scalable Node.js applications? Here’s how to make JavaScript work for you, not against you.
+A hand hold a magic wand with sparklers on a dark blue background.
+Credit: MERCURY studio / Shutterstock
+Even with competition from newer runtimes Deno and Bun, Node.js remains the flagship JavaScript platform on the server. Server-side Node frameworks like Express, build-chain tools like Webpack, and a host of developer-friendly utilities make Node a hugely popular way to leverage the power and expressiveness of JavaScript on the back end.
+
+Of course, Node owes much of its popularity to JavaScript, the multiparadigm language that supports many different styles of programming. Originally developed as a dynamic scripting language to fill the gaps in HTML, modern JavaScript is used for functional programming, reactive programming, and object-oriented programming. Developers can focus on one style or move flexibly between them as different use cases require.
+
+But JavaScript’s multiparadigm nature can be a double-edged sword. It is vital to really understand how to use the different programming paradigms in JavaScript specifically. Given such a versatile language, it also doesn’t make much sense to just pick one style and insist it’s always the best. The language’s flexibility also puts more of the burden of keeping things structured and maintainable on the developer. When working with Node, you have the additional challenge of keeping in mind that it is a single-threaded platform; even the asynchronous code you write isn’t truly concurrent.
+
+JavaScript can be a boon if used with care—or a bane if used recklessly. Here are the 10 JavaScript concepts you’ll need to write scalable code in Node.js.
+
+Promises and async/await
+JavaScript and Node let you perform many tasks at the same time in a “non-blocking” way. This means you can tell the platform to do several things at once, without waiting for other operations to finish. The main mechanisms used for asynchronous programming in JavaScript are Promise objects and the async/await keywords. (We’ll discuss the event loop in the next section.)
+
+Promises may be hard to grasp at first, but once you understand them, they offer a very simple means to provide and consume asynchronous jobs. Most often in Node, we are on the consuming end:
+
+
+const fileReadPromise = fs.readFile(filePath, 'utf-8');
+fileReadPromise.then(fileData => {
+  console.log('Success… file content:');
+  console.log(fileData);
+});
+
+
+The .then() syntax is used to handle what happens after a Promise has been resolved. It also includes a .catch() function for dealing with errors. Between them, the two syntax elements provide a simple way to describe what happens after a Promise has been issued.
+
+With async/await, we use a synchronous (or linear) syntax to describe the same kind of thing (note that we are ignoring error handling in this code):
+
+
+async function readFileAsync() { 
+  const fileData = await fs.readFile(filePath, 'utf-8');
+  console.log('Success... file content:'); 
+  console.log(fileData);
+}
+
+
+This code does the same thing as the version using Promise. We decorate the readFileAsync function with the async keyword, which lets the interpreter know we will perform an async operation. Then, when we need to call out to the actual operation (fs.readfile), we decorate the call with await.
+
+Learn more about Promises and async/await in JavaScript.
+
+InfoWorld Smart Answers Learn more
+Explore related questions
+How does JavaScript achieve near-parallel execution?
+What defines JavaScript as a scripting language?
+How is JavaScript used across the full stack?
+What are the benefits of JavaScript's syntax similarity?
+Why are Promises and async/await important for managing asynchronous complexity?
+Ask a question
+
+ASK
+The event loop
+To effectively use Promise objects and async/await in your Node operations, you’ll also need to understand the Node event loop. When we say Node is single-threaded, the event loop is the reason why. If these are newer concepts for you, don’t worry. Just make a mental note that inside Node (and similar platforms) your code is never fully multitasked. This is different from some concurrent platforms like Java or Go, where the platform can make direct use of operating system threads.
+
+This is not a limitation that you have to wrestle until you are dealing with scale. In understanding Node, it is just important to know how it works with asynchronous operations.
+
+Let’s say you initiate an asynchronous operation, for instance with a fetch() call:
+
+
+const response = await fetch(“https://anapioficeandfire.com/api/characters/232”)
+
+The operation is submitted to Node, which schedules the request with the operating system’s networking service. At that point, the event loop is free to do other things, including initiating other network requests that can proceed in parallel. When one of those in-flight requests is complete, the event loop is notified. When the event loop has time, it proceeds with whatever handlers you defined. Take this one, for example:
+
+
+const characterData = response.json().then( /* do stuff */ );
+
+When that task is done, the asynchronous operation is done. This is the general flow for all asynchronous programming on Node.
+
+More about multithreaded programming in JavaScript
+See my introduction to multithreaded JavaScript for more about multithreading, concurrency, and parallelism in Node and JavaScript.
+
+Streams
+Streams are how Node models flows of data in networking, filesystem, and other channels. Streams represent a series of “things,” like bits coming in or going out to a file. When something important occurs within a series, an event is raised that calls out to the application code based on its handlers.
+
+If this sounds similar to our discussion of asynchronous programming, it’s because the two concepts are closely related. Streams are the code mechanism Node provides for dealing with data flows, which may be large, in a non-blocking fashion.
+
+For example, the fs (filesystem) standard library in Node lets us open a file as you’ve just seen, but it also lets us consume events from the file so we can accept the data in chunks and be notified of file endings and errors. This is critical when dealing with large files (where otherwise we’d load the entire dataset into memory, no bueno):
+
+
+const filePath = 'hugefile.txt';
+const readableStream = fs.createReadStream(filePath, { encoding: 'utf8' });
+readableStream.on('data', (chunk) => { 
+  console.log(`Received ${chunk.length} characters of data.`); 
+}
+
+readableStream.on('end', () => { 
+  console.log('Finished reading the file.');
+});
+
+readableStream.on('error', (error) => { 
+  console.error(`An error occurred: ${error.message}`); 
+});
+
+The .on() callbacks let you define which event you are watching for, and then the actual function for doing the work.
+
+Modules
+In JavaScript, you use modules to organize code into manageable chunks. It’s common to import one or more modules into your code to make use of functionality defined by others, like the filesystem library:
+
+
+import fs from 'fs/promises';
+
+Or, you might import
